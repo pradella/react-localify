@@ -103,7 +103,7 @@ export const LocalifyContext = createContext<LocalifyContextValue | undefined>(
 
 // Props for LocalifyProvider
 interface LocalifyProviderProps {
-  messages: string; // The path to the messages.json file
+  messages: Messages;
   locale?: 'auto' | LocaleId;
   children: ReactNode;
 }
@@ -115,20 +115,12 @@ export const LocalifyProvider = ({
   children,
 }: LocalifyProviderProps) => {
   const [state, dispatch] = useReducer(localifyReducer, initialState);
-  const [loading, setLoading] = useState(true);
+  const [ready, setReady] = useState(false);
 
   // Load messages from messages.json and set as initialState
   useEffect(() => {
-    fetch(messages) // Use the provided path to fetch messages
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch({ type: 'SET_MESSAGES', payload: data });
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error loading messages:', error);
-        setLoading(false);
-      });
+    dispatch({ type: 'SET_MESSAGES', payload: messages });
+    setReady(true);
   }, [messages]);
 
   // Set the locale value from the prop
@@ -171,7 +163,7 @@ export const LocalifyProvider = ({
 
   return (
     <LocalifyContext.Provider value={contextValue}>
-      {!loading && children}
+      {ready && children}
     </LocalifyContext.Provider>
   );
 };

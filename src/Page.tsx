@@ -22,6 +22,12 @@ export default function Page() {
       <p>
         <Locl>This is the lorem-ipsun paragraph.</Locl>
       </p>
+      {/* <Locl>
+        <div data-testid="with-tag">
+          <strong>Select</strong>
+          <span>or drag</span>.
+        </div>
+      </Locl> */}
       <small>{version}</small>
     </div>
   );
