@@ -82,3 +82,8 @@ export function addUntrackedMessage(
 export function getUntrackedMessages() {
   return untrackedMessages;
 }
+
+export function getBrowserLanguage() {
+  const browserLanguage = navigator.language;
+  return browserLanguage;
+}

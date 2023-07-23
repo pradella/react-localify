@@ -6,6 +6,7 @@ import {
   useReducer,
   useState,
 } from 'react';
+import { getBrowserLanguage } from './utils';
 
 // Define a union type for allowed locales
 export type LocaleId =
@@ -26,9 +27,7 @@ export type Message = {
 };
 
 // Define the shape of the context value
-interface LocaleContextValue {
-  messages: Messages;
-  locale?: LocaleId;
+interface LocaleContextValue extends State {
   getMessage: (id: string, locale: LocaleId) => string | undefined;
   setMessages: (newMessages: Messages) => void;
   setMessage: (id: string, locale: LocaleId, message: string) => void;
@@ -88,12 +87,13 @@ const localeReducer = (state: State, action: Action): State => {
 
 type State = {
   messages: Messages;
-  locale?: LocaleId;
+  locale: LocaleId;
 };
 
 // Create the initial state with your messages
 const initialState: State = {
   messages: {},
+  locale: getBrowserLanguage(), // default is browser language
 };
 
 // Create the context
@@ -104,14 +104,14 @@ export const LocaleContext = createContext<LocaleContextValue | undefined>(
 // Props for LocaleContextProvider
 interface LocaleContextProviderProps {
   messages: string; // The path to the messages.json file
-  locale: LocaleId;
+  locale?: 'auto' | LocaleId;
   children: ReactNode;
 }
 
 // Create a provider component to wrap your app and provide the context value
 export const LocaleContextProvider = ({
   messages,
-  locale,
+  locale = 'auto',
   children,
 }: LocaleContextProviderProps) => {
   const [state, dispatch] = useReducer(localeReducer, initialState);
@@ -133,6 +133,9 @@ export const LocaleContextProvider = ({
 
   // Set the locale value from the prop
   useEffect(() => {
+    // keep changes
+    if (locale === 'auto') return;
+
     dispatch({ type: 'SET_LOCALE', payload: locale });
   }, [locale]);
 
