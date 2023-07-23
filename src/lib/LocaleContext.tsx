@@ -26,10 +26,11 @@ type Messages = {
 // Define the shape of the context value
 interface LocaleContextValue {
   messages: Messages;
-  locale: LocaleId;
+  locale?: LocaleId;
   getMessage: (id: string, locale: LocaleId) => string | undefined;
   setMessages: (newMessages: Messages) => void;
   setMessage: (id: string, locale: LocaleId, message: string) => void;
+  setLocale: (locale: LocaleId) => void;
 }
 
 // Action types with discriminant properties
@@ -41,22 +42,42 @@ type Action =
   | {
       type: 'SET_MESSAGE';
       payload: { id: string; locale: LocaleId; message: string };
+    }
+  | {
+      type: 'SET_LOCALE';
+      payload: LocaleId;
     };
 
 // Reducer function
-const localeReducer = (state: Messages, action: Action): Messages => {
+const localeReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SET_MESSAGES': {
-      return { ...action.payload };
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          ...action.payload,
+        },
+      };
     }
     case 'SET_MESSAGE': {
       const { id, locale, message } = action.payload;
       return {
         ...state,
-        [id]: {
-          ...state[id],
-          [locale]: message,
+        messages: {
+          ...state.messages,
+          [id]: {
+            ...state.messages[id],
+            [locale]: message,
+          },
         },
+      };
+    }
+    case 'SET_LOCALE': {
+      console.log('SET_LOCALE', action.payload);
+      return {
+        ...state,
+        locale: action.payload,
       };
     }
     default:
@@ -64,8 +85,13 @@ const localeReducer = (state: Messages, action: Action): Messages => {
   }
 };
 
+type State = {
+  messages: Messages;
+  locale?: LocaleId;
+};
+
 // Create the initial state with your messages
-const initialState: { messages: Messages; locale?: LocaleId } = {
+const initialState: State = {
   messages: {},
 };
 
@@ -87,7 +113,7 @@ export const LocaleContextProvider = ({
   locale,
   children,
 }: LocaleContextProviderProps) => {
-  const [state, dispatch] = useReducer(localeReducer, initialState.messages);
+  const [state, dispatch] = useReducer(localeReducer, initialState);
   const [loading, setLoading] = useState(true);
 
   // Load messages from messages.json and set as initialState
@@ -104,8 +130,13 @@ export const LocaleContextProvider = ({
       });
   }, [messages]);
 
+  // Set the locale value from the prop
+  useEffect(() => {
+    dispatch({ type: 'SET_LOCALE', payload: locale });
+  }, [locale]);
+
   const getMessage = (id: string, locale: LocaleId) => {
-    return state[id]?.[locale];
+    return state.messages[id]?.[locale];
   };
 
   const setMessages = (newMessages: Messages) => {
@@ -119,12 +150,21 @@ export const LocaleContextProvider = ({
     });
   };
 
+  const setLocale = (locale: LocaleId) => {
+    console.log('setLocale');
+    dispatch({
+      type: 'SET_LOCALE',
+      payload: locale,
+    });
+  };
+
   const contextValue: LocaleContextValue = {
-    messages: state,
-    locale: locale, // Set the locale value from the prop
+    messages: state.messages,
+    locale: state.locale,
     getMessage,
     setMessages,
     setMessage,
+    setLocale,
   };
 
   return (
