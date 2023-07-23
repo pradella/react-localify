@@ -57,13 +57,16 @@ let untrackedMessages: Messages = {};
 
 export function addUntrackedMessage(
   message: string | ReactNode,
-  locale?: LocaleId
+  locale: LocaleId
 ) {
   const id = convertMessageToKey(message);
+
+  if (untrackedMessages[id]) return;
+
   const messageAsString =
     typeof message === 'string' ? message : jsxToString(message);
 
-  const untrackedMessage: Message = locale ? { [locale]: messageAsString } : {};
+  const untrackedMessage: Message = { [locale]: messageAsString };
 
   untrackedMessages = {
     ...untrackedMessages,
