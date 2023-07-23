@@ -1,4 +1,4 @@
-// LocaleContext.tsx
+// LocalifyContext.tsx
 import {
   ReactNode,
   createContext,
@@ -27,7 +27,7 @@ export type Message = {
 };
 
 // Define the shape of the context value
-interface LocaleContextValue extends State {
+interface LocalifyContextValue extends State {
   getMessage: (id: string, locale: LocaleId) => string | undefined;
   setMessages: (newMessages: Messages) => void;
   setMessage: (id: string, locale: LocaleId, message: string) => void;
@@ -50,7 +50,7 @@ type Action =
     };
 
 // Reducer function
-const localeReducer = (state: State, action: Action): State => {
+const localifyReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SET_MESSAGES': {
       return {
@@ -97,24 +97,24 @@ const initialState: State = {
 };
 
 // Create the context
-export const LocaleContext = createContext<LocaleContextValue | undefined>(
+export const LocalifyContext = createContext<LocalifyContextValue | undefined>(
   undefined
 );
 
-// Props for LocaleContextProvider
-interface LocaleContextProviderProps {
+// Props for LocalifyProvider
+interface LocalifyProviderProps {
   messages: string; // The path to the messages.json file
   locale?: 'auto' | LocaleId;
   children: ReactNode;
 }
 
 // Create a provider component to wrap your app and provide the context value
-export const LocaleContextProvider = ({
+export const LocalifyProvider = ({
   messages,
   locale = 'auto',
   children,
-}: LocaleContextProviderProps) => {
-  const [state, dispatch] = useReducer(localeReducer, initialState);
+}: LocalifyProviderProps) => {
+  const [state, dispatch] = useReducer(localifyReducer, initialState);
   const [loading, setLoading] = useState(true);
 
   // Load messages from messages.json and set as initialState
@@ -161,7 +161,7 @@ export const LocaleContextProvider = ({
     });
   };
 
-  const contextValue: LocaleContextValue = {
+  const contextValue: LocalifyContextValue = {
     ...state,
     getMessage,
     setMessages,
@@ -170,8 +170,8 @@ export const LocaleContextProvider = ({
   };
 
   return (
-    <LocaleContext.Provider value={contextValue}>
+    <LocalifyContext.Provider value={contextValue}>
       {!loading && children}
-    </LocaleContext.Provider>
+    </LocalifyContext.Provider>
   );
 };

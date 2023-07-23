@@ -1,14 +1,14 @@
 import { ReactNode, Fragment, useMemo } from 'react';
 
-import { useLocale } from './useLocale';
+import { useLocalify } from './useLocalify';
 import { addUntrackedMessage } from './utils';
 
-type LocaleProps = {
+type LoclProps = {
   children: string | ReactNode;
 };
 
-export default function Locale({ children }: LocaleProps) {
-  const { getMessage, locale } = useLocale();
+export default function Locl({ children }: LoclProps) {
+  const { getMessage, locale } = useLocalify();
 
   const message = useMemo(() => {
     const existingMessage = getMessage(children);

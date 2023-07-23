@@ -1,11 +1,11 @@
 import './App.css';
 import Page from './Page';
-import { LocaleContextProvider } from './lib/LocaleContext';
+import { LocalifyProvider } from './lib/LocalifyContext';
 
 export default function App() {
   return (
-    <LocaleContextProvider messages="messages.json">
+    <LocalifyProvider messages="messages.json">
       <Page />
-    </LocaleContextProvider>
+    </LocalifyProvider>
   );
 }

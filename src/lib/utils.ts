@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import slugify from 'slugify';
 import _ from 'lodash';
-import { LocaleId, Message, Messages } from './LocaleContext';
+import { LocaleId, Message, Messages } from './LocalifyContext';
 
 export function convertMessageToKey(text: string | ReactNode): string {
   function replaceAll(text: string, search: string, replace: string): string {

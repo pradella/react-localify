@@ -1,13 +1,13 @@
-import Locale from './lib/Locale';
-import { useLocale } from './lib/useLocale';
+import Locl from './lib/Locl';
+import { useLocalify } from './lib/useLocalify';
 
 export default function Page() {
-  const { setLocale, locale } = useLocale();
+  const { setLocale, locale } = useLocalify();
 
   return (
     <div>
       <h1>
-        <Locale>Hello, world</Locale>
+        <Locl>Hello, world</Locl>
       </h1>
       <button onClick={() => setLocale('en-US')} disabled={locale === 'en-US'}>
         English
@@ -16,10 +16,10 @@ export default function Page() {
         Portuguese
       </button>
       <h3>
-        <Locale>Headline comes here</Locale>
+        <Locl>Headline comes here</Locl>
       </h3>
       <p>
-        <Locale>This is the lorem-ipsun paragraph.</Locale>
+        <Locl>This is the lorem-ipsun paragraph.</Locl>
       </p>
     </div>
   );

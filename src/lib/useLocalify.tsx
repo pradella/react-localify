@@ -2,11 +2,11 @@ import { ReactNode, useContext } from 'react';
 import _ from 'lodash';
 import ReactHtmlParser from 'react-html-parser';
 
-import { LocaleContext } from './LocaleContext';
+import { LocalifyContext } from './LocalifyContext';
 import { convertMessageToKey } from './utils';
 
-export const useLocale = () => {
-  const context = useContext(LocaleContext);
+export const useLocalify = () => {
+  const context = useContext(LocalifyContext);
   if (!context) {
     throw new Error('useLocale must be used within a LocaleContextProvider');
   }
@@ -26,7 +26,6 @@ export const useLocale = () => {
         (_.get(context.messages, `${key}.${locale}`) as unknown as string) ||
         context.messages[key as string][locale];
 
-
       // replace wildcards (if exists)
       //   label = replaceWildcards(label, {
       //     additionalWildcards: options?.additionalWildcards,
@@ -34,7 +33,7 @@ export const useLocale = () => {
     } catch (err) {
       //
     }
-    return label && typeof(label) !== 'string' ? ReactHtmlParser(label) : label;
+    return label && typeof label !== 'string' ? ReactHtmlParser(label) : label;
   }
 
   return { ...context, getMessage };
