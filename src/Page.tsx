@@ -1,5 +1,6 @@
-import Locl from './lib/Locl';
+import { Locl } from './lib/Locl';
 import { useLocalify } from './lib/useLocalify';
+import { version } from '../package.json';
 
 export default function Page() {
   const { setLocale, locale } = useLocalify();
@@ -21,6 +22,7 @@ export default function Page() {
       <p>
         <Locl>This is the lorem-ipsun paragraph.</Locl>
       </p>
+      <small>{version}</small>
     </div>
   );
 }

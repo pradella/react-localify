@@ -7,7 +7,7 @@ type LoclProps = {
   children: string | ReactNode;
 };
 
-export default function Locl({ children }: LoclProps) {
+export function Locl({ children }: LoclProps) {
   const { getMessage, locale } = useLocalify();
 
   const message = useMemo(() => {
