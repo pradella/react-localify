@@ -4,7 +4,7 @@ import { LocaleContextProvider } from './lib/LocaleContext';
 
 export default function App() {
   return (
-    <LocaleContextProvider messages="./src/data/messages.json">
+    <LocaleContextProvider messages="messages.json">
       <Page />
     </LocaleContextProvider>
   );

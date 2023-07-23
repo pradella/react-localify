@@ -6,7 +6,7 @@ import {
   useReducer,
   useState,
 } from 'react';
-import { getBrowserLanguage } from './utils';
+import { getBrowserLocale } from './utils';
 
 // Define a union type for allowed locales
 export type LocaleId =
@@ -93,7 +93,7 @@ type State = {
 // Create the initial state with your messages
 const initialState: State = {
   messages: {},
-  locale: getBrowserLanguage(), // default is browser language
+  locale: getBrowserLocale(), // default is browser language
 };
 
 // Create the context
@@ -162,8 +162,7 @@ export const LocaleContextProvider = ({
   };
 
   const contextValue: LocaleContextValue = {
-    messages: state.messages,
-    locale: state.locale,
+    ...state,
     getMessage,
     setMessages,
     setMessage,

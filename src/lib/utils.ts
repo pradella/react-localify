@@ -83,7 +83,16 @@ export function getUntrackedMessages() {
   return untrackedMessages;
 }
 
-export function getBrowserLanguage() {
-  const browserLanguage = navigator.language;
-  return browserLanguage;
+export function getBrowserLocale() {
+  let browserLocale: string | undefined = undefined;
+
+  if (navigator.languages && navigator.languages.length) {
+    // Use the first language from the list of preferred languages
+    browserLocale = navigator.languages[0];
+  } else {
+    // Fallback to navigator.language if navigator.languages is not available
+    browserLocale = navigator.language || 'en-US';
+  }
+
+  return browserLocale;
 }
