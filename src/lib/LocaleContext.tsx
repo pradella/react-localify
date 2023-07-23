@@ -17,10 +17,12 @@ export type LocaleId =
   | /* Add other valid locales */ string;
 
 // Define the shape of the message object using type
-type Messages = {
-  [key: string]: {
-    [locale: string]: string;
-  };
+export type Messages = {
+  [key: string]: Message;
+};
+
+export type Message = {
+  [locale: string]: string;
 };
 
 // Define the shape of the context value
@@ -74,7 +76,6 @@ const localeReducer = (state: State, action: Action): State => {
       };
     }
     case 'SET_LOCALE': {
-      console.log('SET_LOCALE', action.payload);
       return {
         ...state,
         locale: action.payload,
@@ -151,7 +152,6 @@ export const LocaleContextProvider = ({
   };
 
   const setLocale = (locale: LocaleId) => {
-    console.log('setLocale');
     dispatch({
       type: 'SET_LOCALE',
       payload: locale,

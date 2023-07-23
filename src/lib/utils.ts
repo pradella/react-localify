@@ -1,10 +1,9 @@
 import { ReactNode } from 'react';
 import slugify from 'slugify';
 import _ from 'lodash';
+import { LocaleId, Message, Messages } from './LocaleContext';
 
-export function convertMessageToKey(
-  text: string | ReactNode
-): string | ReactNode {
+export function convertMessageToKey(text: string | ReactNode): string {
   function replaceAll(text: string, search: string, replace: string): string {
     return text.split(search).join(replace);
   }
@@ -27,16 +26,12 @@ export function convertMessageToKey(
     return sanitizeKey(text as string);
   } catch (err) {
     // goes here if probably has JSX code
-    try {
-      const convertedText = jsxToString(text);
-      return sanitizeKey(convertedText);
-    } catch (err) {
-      return text;
-    }
+    const convertedText = jsxToString(text);
+    return sanitizeKey(convertedText);
   }
 }
 
-function jsxToString(jsx: unknown): string {
+export function jsxToString(jsx: unknown): string {
   const string = _.map(Array.isArray(jsx) ? jsx : [jsx], (el) => {
     return el?.type && el?.props?.children
       ? `<${typeToTag(el.type, el?.props)}>${jsxToString(
@@ -56,4 +51,31 @@ function jsxToString(jsx: unknown): string {
       ? `${type} ${props ? propsToAttr(props) : ''}`
       : '';
   }
+}
+
+let untrackedMessages: Messages = {};
+
+export function addUntrackedMessage(
+  message: string | ReactNode,
+  locale?: LocaleId
+) {
+  const id = convertMessageToKey(message);
+  const messageAsString =
+    typeof message === 'string' ? message : jsxToString(message);
+
+  const untrackedMessage: Message = locale ? { [locale]: messageAsString } : {};
+
+  untrackedMessages = {
+    ...untrackedMessages,
+    [id]: {
+      ...untrackedMessages[id],
+      ...untrackedMessage,
+    },
+  };
+
+  console.warn('untrackedMessages updated', untrackedMessages);
+}
+
+export function getUntrackedMessages() {
+  return untrackedMessages;
 }
