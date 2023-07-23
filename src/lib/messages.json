@@ -1,7 +1,7 @@
 {
   "Hello-world": {
-    "en-US": "Hello world",
-    "pt-BR": "Olá mundo"
+    "en-US": "Hello, world",
+    "pt-BR": "Olá, mundo"
   },
   "Goodbye": {
     "en-US": "Goodbye",

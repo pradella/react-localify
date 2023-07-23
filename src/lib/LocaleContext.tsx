@@ -8,7 +8,7 @@ import {
 } from 'react';
 
 // Define a union type for allowed locales
-type Locale =
+export type LocaleId =
   | 'en-US'
   | 'pt-BR'
   | 'es'
@@ -18,16 +18,18 @@ type Locale =
 
 // Define the shape of the message object using type
 type Messages = {
-  [key: string]: Partial<Record<Locale, string>>;
+  [key: string]: {
+    [locale: string]: string;
+  };
 };
 
 // Define the shape of the context value
 interface LocaleContextValue {
   messages: Messages;
-  locale: Locale;
-  getMessage: (id: string, locale: Locale) => string | undefined;
+  locale: LocaleId;
+  getMessage: (id: string, locale: LocaleId) => string | undefined;
   setMessages: (newMessages: Messages) => void;
-  setMessage: (id: string, locale: Locale, message: string) => void;
+  setMessage: (id: string, locale: LocaleId, message: string) => void;
 }
 
 // Action types with discriminant properties
@@ -38,7 +40,7 @@ type Action =
     }
   | {
       type: 'SET_MESSAGE';
-      payload: { id: string; locale: Locale; message: string };
+      payload: { id: string; locale: LocaleId; message: string };
     };
 
 // Reducer function
@@ -63,7 +65,7 @@ const localeReducer = (state: Messages, action: Action): Messages => {
 };
 
 // Create the initial state with your messages
-const initialState: { messages: Messages; locale?: Locale } = {
+const initialState: { messages: Messages; locale?: LocaleId } = {
   messages: {},
 };
 
@@ -75,7 +77,7 @@ export const LocaleContext = createContext<LocaleContextValue | undefined>(
 // Props for LocaleContextProvider
 interface LocaleContextProviderProps {
   messages: string; // The path to the messages.json file
-  locale: Locale;
+  locale: LocaleId;
   children: ReactNode;
 }
 
@@ -102,7 +104,7 @@ export const LocaleContextProvider = ({
       });
   }, [messages]);
 
-  const getMessage = (id: string, locale: Locale) => {
+  const getMessage = (id: string, locale: LocaleId) => {
     return state[id]?.[locale];
   };
 
@@ -110,7 +112,7 @@ export const LocaleContextProvider = ({
     dispatch({ type: 'SET_MESSAGES', payload: newMessages });
   };
 
-  const setMessage = (id: string, locale: Locale, message: string) => {
+  const setMessage = (id: string, locale: LocaleId, message: string) => {
     dispatch({
       type: 'SET_MESSAGE',
       payload: { id, locale, message },

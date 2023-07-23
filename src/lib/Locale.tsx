@@ -1,18 +1,17 @@
-import { ReactNode, Fragment, useEffect, useRef } from 'react';
+import { ReactNode, Fragment, useMemo } from 'react';
+
+import { useLocale } from './useLocale';
 
 type LocaleProps = {
   children: string | ReactNode;
 };
 
 export default function Locale({ children }: LocaleProps) {
-  const isMounted = useRef<boolean>(false);
+  const { getMessage, locale } = useLocale();
 
-  useEffect(() => {
-    if (isMounted.current) return;
+  const message = useMemo(() => {
+    return getMessage(children) || children;
+  }, [children, locale, getMessage]);
 
-    console.log(children);
-    isMounted.current = true;
-  }, [children]);
-
-  return <Fragment>{children}</Fragment>;
+  return <Fragment>{message}</Fragment>;
 }
