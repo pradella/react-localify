@@ -1,8 +1,7 @@
 import { ReactElement, ReactNode } from 'react';
 import slugify from 'slugify';
 import { renderToString } from 'react-dom/server';
-
-import { LocaleId, Message, Messages } from './LocalifyContext';
+import { LocaleId, Message, Messages } from './types';
 
 export function convertMessageToKey(text: string | ReactNode): string {
   function sanitizeKey(text: string): string {
@@ -66,7 +65,7 @@ export function getUntrackedMessages() {
   return untrackedMessages;
 }
 
-export function getBrowserLocale() {
+export function getBrowserLocale(): LocaleId | string {
   let browserLocale: string | undefined = undefined;
 
   if (navigator.languages && navigator.languages.length) {

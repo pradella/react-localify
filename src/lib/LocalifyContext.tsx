@@ -6,25 +6,9 @@ import {
   useReducer,
   useState,
 } from 'react';
+
 import { getBrowserLocale } from './utils';
-
-// Define a union type for allowed locales
-export type LocaleId =
-  | 'en-US'
-  | 'pt-BR'
-  | 'es'
-  | 'es-ES'
-  | 'jp'
-  | /* Add other valid locales */ string;
-
-// Define the shape of the message object using type
-export type Messages = {
-  [key: string]: Message;
-};
-
-export type Message = {
-  [locale: string]: string;
-};
+import { LocaleId, Messages } from './types';
 
 // Define the shape of the context value
 interface LocalifyContextValue extends State {

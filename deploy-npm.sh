@@ -1,6 +1,8 @@
 # exit automatically if any command returns a non-zero exit code
 set -e
 
+yarn test
+
 export BUILD_MODE=lib
 
 # first build to pass errors...
