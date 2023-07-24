@@ -7,7 +7,12 @@ import {
   useState,
 } from 'react';
 
-import { getBrowserLocale } from './utils';
+import {
+  getBrowserLocale,
+  getLocalStorageLocale,
+  removeLocalStorageLocale,
+  setLocalStorageLocale,
+} from './utils';
 import { LocaleId, Messages } from './types';
 
 // Define the shape of the context value
@@ -90,6 +95,7 @@ interface LocalifyProviderProps {
   messages: Messages;
   locale?: 'auto' | LocaleId;
   children: ReactNode;
+  persistLocaleChange?: boolean;
 }
 
 // Create a provider component to wrap your app and provide the context value
@@ -97,6 +103,7 @@ export const LocalifyProvider = ({
   messages,
   locale = 'auto',
   children,
+  persistLocaleChange = false,
 }: LocalifyProviderProps) => {
   const [state, dispatch] = useReducer(localifyReducer, initialState);
   const [ready, setReady] = useState(false);
@@ -109,11 +116,21 @@ export const LocalifyProvider = ({
 
   // Set the locale value from the prop
   useEffect(() => {
-    // keep changes
+    // keep initial value, that comes from brower locale
     if (locale === 'auto') return;
 
     dispatch({ type: 'SET_LOCALE', payload: locale });
   }, [locale]);
+
+  useEffect(() => {
+    if (persistLocaleChange) {
+      const localeFromLocalStorage = getLocalStorageLocale();
+      localeFromLocalStorage &&
+        dispatch({ type: 'SET_LOCALE', payload: localeFromLocalStorage });
+    } else {
+      removeLocalStorageLocale();
+    }
+  }, [persistLocaleChange]);
 
   const getMessage = (id: string, locale: LocaleId) => {
     return state.messages[id]?.[locale];
@@ -135,6 +152,7 @@ export const LocalifyProvider = ({
       type: 'SET_LOCALE',
       payload: locale,
     });
+    if (persistLocaleChange) setLocalStorageLocale(locale);
   };
 
   const contextValue: LocalifyContextValue = {

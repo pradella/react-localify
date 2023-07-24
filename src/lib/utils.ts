@@ -79,6 +79,19 @@ export function getBrowserLocale(): LocaleId | string {
   return browserLocale;
 }
 
+const localStorageLocaleKey = 'locale';
+export function getLocalStorageLocale() {
+  return window.localStorage.getItem(localStorageLocaleKey);
+}
+
+export function setLocalStorageLocale(locale: LocaleId) {
+  return window.localStorage.setItem(localStorageLocaleKey, locale);
+}
+
+export function removeLocalStorageLocale() {
+  window.localStorage.removeItem(localStorageLocaleKey);
+}
+
 export function replaceAll(str: string, search: string, replacement: string) {
   // Escape special characters in the search string
   const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

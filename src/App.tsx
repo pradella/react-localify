@@ -5,7 +5,7 @@ import messages from './messages.json';
 
 export default function App() {
   return (
-    <LocalifyProvider messages={messages}>
+    <LocalifyProvider messages={messages} persistLocaleChange={true}>
       <Page />
     </LocalifyProvider>
   );
