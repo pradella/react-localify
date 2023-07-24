@@ -8,21 +8,22 @@ import { convertMessageToKey } from './utils';
 export const useLocalify = () => {
   const context = useContext(LocalifyContext);
   if (!context) {
-    throw new Error('useLocale must be used within a LocaleContextProvider');
+    throw new Error('useLocalify must be used within a LocalifyProvider');
   }
 
-  function getMessage(text: string | ReactNode) {
+  function getMessage(message: string | ReactNode, id?: string) {
     const locale = context?.locale;
 
-    if (!locale) return text;
+    if (!locale) return message;
 
-    const key = convertMessageToKey(text);
+    // if no id provided, generated from message
+    if (!id) id = convertMessageToKey(message);
 
     let label: string | undefined = undefined;
     try {
       // get label from database (labels.json)
       // for some reasons, must use || because sometimes comes undefined with _.get
-      label = context.messages[key as string][locale];
+      label = context.messages[id][locale];
 
       // replace wildcards (if exists)
       //   label = replaceWildcards(label, {

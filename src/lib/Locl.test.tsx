@@ -62,6 +62,11 @@ const messages = {
     'pt-BR': 'Faça o upload do seu arquivo PowerPoint, PDF ou vídeo:',
     'es-ES': 'Sube tu archivo de PowerPoint, PDF o video:',
   },
+  'custom-id': {
+    'en-US': 'Text from custom id',
+    'pt-BR': 'Texto de um id personalizado',
+    'es-ES': 'Texto del id personalizado',
+  },
 };
 
 describe('Locl', () => {
@@ -163,6 +168,17 @@ describe('Locl', () => {
     expect(element.outerHTML).toBe(
       '<div data-testid="with-tag"><strong>Selecione um arquivo </strong><span>ou arraste ele aqui</span>.</div>'
     );
+  });
+
+  it('render with custom id', async () => {
+    const text = messages['custom-id']['en-US'];
+    const translated = messages['custom-id']['pt-BR'];
+    render(
+      <LocalifyProvider messages={messages} locale="pt-BR">
+        <Locl id="custom-id">{text}</Locl>
+      </LocalifyProvider>
+    );
+    expect(screen.getByText(translated)).toBeDefined();
   });
 
   // it('render in portuguese with global wildcard', async () => {
