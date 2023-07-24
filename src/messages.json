@@ -6,5 +6,9 @@
   "Goodbye": {
     "en-US": "Goodbye",
     "pt-BR": "Adeus"
+  },
+  "Current-version_-version_-Go-github-repo": {
+    "en-US": "Current version: [[version]].<!-- --> <a href=\"https://github.com/pradella/react-localify\" target=\"_blank\">Go github repo</a>",
+    "pt-BR": "Versão atual: [[version]].<!-- --> <a href=\"https://github.com/pradella/react-localify\" target=\"_blank\">Ir para github repo</a>"
   }
 }

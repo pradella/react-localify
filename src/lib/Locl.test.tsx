@@ -27,21 +27,11 @@ const messages = {
     'es-ES':
       '<strong>Seleccione un archivo </strong><span>o arrástrelo aquí</span>.',
   },
-  'Only-the-first-dollar10-slides-were-converted_': {
+  'Current-version_-version_-Go-github-repo': {
     'en-US':
-      'Only the first [[ANONYMOUS_MAX_SLIDE_CONVERSION]] slides were converted. ',
+      'Current version: [[version]].<!-- --> <a href="https://github.com/pradella/react-localify" target="_blank">Go github repo</a>',
     'pt-BR':
-      'Apenas os primeiros [[ANONYMOUS_MAX_SLIDE_CONVERSION]] slides foram convertidos. ',
-    'es-ES':
-      'Solo se convirtieron las primeras [[ANONYMOUS_MAX_SLIDE_CONVERSION]] diapositivas. ',
-  },
-  'Your-trial-will-expire-in-DAYS_LEFT-day(s)_-Upgrade-now-to-Pro': {
-    'en-US':
-      'Your trial will expire in [[DAYS_LEFT]] day(s). <a href="/#/pricing">Upgrade now to Pro</a>',
-    'pt-BR':
-      'Seu trial irá expirar em [[DAYS_LEFT]] dia(s). <a href="/#/pricing">Mude para o Pro agora</a>',
-    'es-ES':
-      'Tu trial vencerá en [[DAYS_LEFT]] día(s). <a href="/#/pricing">Cambiar a Pro ahora</a>',
+      'Versão atual: [[version]].<!-- --> <a href="https://github.com/pradella/react-localify" target="_blank">Ir para github repo</a>',
   },
   'Course-created-successfully_': {
     'en-US': 'Course created successfully!',
@@ -181,44 +171,22 @@ describe('Locl', () => {
     expect(screen.getByText(translated)).toBeDefined();
   });
 
-  // it('render in portuguese with global wildcard', async () => {
-  //   const ANONYMOUS_MAX_SLIDE_CONVERSION = 10;
-  //   render(
-  //     <LabelProvider
-  //       labels={labels}
-  //       language="pt-BR"
-  //       wildcards={{
-  //         '[[ANONYMOUS_MAX_SLIDE_CONVERSION]]': ANONYMOUS_MAX_SLIDE_CONVERSION,
-  //       }}
-  //     >
-  //       <div data-testid="with-global-wildcard">
-  //         <Label>
-  //           Only the first ${ANONYMOUS_MAX_SLIDE_CONVERSION} slides were
-  //           converted.{' '}
-  //         </Label>
-  //       </div>
-  //     </LabelProvider>
-  //   );
-  //   const element = screen.getByTestId('with-global-wildcard');
-  //   expect(element).toContainHTML(
-  //     '<div data-testid="with-global-wildcard">Apenas os primeiros 10 slides foram convertidos. </div>'
-  //   );
-  // });
-
-  // it('render in portuguese with props wildcard', async () => {
-  //   render(
-  //     <LabelProvider labels={labels} language="pt-BR">
-  //       <div data-testid="with-props-wildcard">
-  //         <Label wildcards={{ '[[DAYS_LEFT]]': 3 }}>
-  //           Your trial will expire in [[DAYS_LEFT]] day(s).{' '}
-  //           <a href="/#/pricing">Upgrade now to Pro</a>
-  //         </Label>
-  //       </div>
-  //     </LabelProvider>
-  //   );
-  //   const element = screen.getByTestId('with-props-wildcard');
-  //   expect(element).toContainHTML(
-  //     '<div data-testid="with-props-wildcard">Seu trial irá expirar em 3 dia(s). <a href="/#/pricing">Mude para o Pro agora</a></div>'
-  //   );
-  // });
+  it('render with vars', async () => {
+    render(
+      <LocalifyProvider messages={messages} locale="pt-BR">
+        <div data-testid="with-vars">
+          <Locl vars={{ version: '0.0.7' }}>
+            Current version: [[version]].{' '}
+            <a href="https://github.com/pradella/react-localify">
+              Go github repo
+            </a>
+          </Locl>
+        </div>
+      </LocalifyProvider>
+    );
+    const element = screen.getByTestId('with-vars');
+    expect(element.outerHTML).toBe(
+      '<div data-testid="with-vars">Versão atual: 0.0.7. <a href="https://github.com/pradella/react-localify">Ir para github repo</a></div>'
+    );
+  });
 });

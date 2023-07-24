@@ -5,10 +5,6 @@ import { renderToString } from 'react-dom/server';
 import { LocaleId, Message, Messages } from './LocalifyContext';
 
 export function convertMessageToKey(text: string | ReactNode): string {
-  function replaceAll(text: string, search: string, replace: string): string {
-    return text.split(search).join(replace);
-  }
-
   function sanitizeKey(text: string): string {
     //const options = { remove: /[*+~.()'"!:@<>]/g, strict: true };
     const options = {};
@@ -43,6 +39,9 @@ export function addUntrackedMessage(
   message: string | ReactNode,
   locale: LocaleId
 ) {
+  // only in dev mode
+  if (!import.meta.env.DEV) return;
+
   const id = convertMessageToKey(message);
 
   if (untrackedMessages[id]) return;
@@ -60,7 +59,7 @@ export function addUntrackedMessage(
     },
   };
 
-  console.warn('untrackedMessages updated', untrackedMessages);
+  console.warn('[react-localify] untrackedMessages updated', untrackedMessages);
 }
 
 export function getUntrackedMessages() {
@@ -79,4 +78,15 @@ export function getBrowserLocale() {
   }
 
   return browserLocale;
+}
+
+export function replaceAll(str: string, search: string, replacement: string) {
+  // Escape special characters in the search string
+  const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // Create a regular expression with the 'g' flag for global search
+  const regex = new RegExp(escapedSearch, 'g');
+
+  // Use the replace method of the string with the regex to perform the replacements
+  return str.replace(regex, replacement);
 }

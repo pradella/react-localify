@@ -22,13 +22,14 @@ export default function Page() {
       <p>
         <Locl>This is the lorem-ipsun paragraph.</Locl>
       </p>
-      {/* <Locl>
-        <div data-testid="with-tag">
-          <strong>Select</strong>
-          <span>or drag</span>.
-        </div>
-      </Locl> */}
-      <small>{version}</small>
+      <small>
+        <Locl vars={{ version }}>
+          Current version: [[version]].{' '}
+          <a href="https://github.com/pradella/react-localify">
+            Go github repo
+          </a>
+        </Locl>
+      </small>
     </div>
   );
 }

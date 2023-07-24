@@ -3,7 +3,13 @@ import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
 
 import { LocalifyContext } from './LocalifyContext';
-import { convertMessageToKey } from './utils';
+import { convertMessageToKey, replaceAll } from './utils';
+
+export type LocalifyVars = {
+  [key: string]: LocalifyVar;
+};
+
+type LocalifyVar = string | number;
 
 export const useLocalify = () => {
   const context = useContext(LocalifyContext);
@@ -11,13 +17,19 @@ export const useLocalify = () => {
     throw new Error('useLocalify must be used within a LocalifyProvider');
   }
 
-  function getMessage(message: string | ReactNode, id?: string) {
+  function getMessage(
+    message: string | ReactNode,
+    options?: {
+      id?: string;
+      vars?: LocalifyVars;
+    }
+  ) {
     const locale = context?.locale;
 
     if (!locale) return message;
 
     // if no id provided, generated from message
-    if (!id) id = convertMessageToKey(message);
+    const id = options?.id || convertMessageToKey(message);
 
     let label: string | undefined = undefined;
     try {
@@ -25,10 +37,14 @@ export const useLocalify = () => {
       // for some reasons, must use || because sometimes comes undefined with _.get
       label = context.messages[id][locale];
 
-      // replace wildcards (if exists)
-      //   label = replaceWildcards(label, {
-      //     additionalWildcards: options?.additionalWildcards,
-      //   });
+      // replace all vars
+      if (options?.vars) {
+        Object.keys(options.vars).forEach((key) => {
+          const replacement = options.vars ? options.vars[key] : undefined;
+          if (label && replacement)
+            label = replaceAll(label, `[[${key}]]`, `${replacement}`);
+        });
+      }
     } catch (err) {
       //
     }
