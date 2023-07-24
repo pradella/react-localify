@@ -9,12 +9,12 @@ type LoclProps = {
 };
 
 export function Locl({ children, id, vars }: LoclProps) {
-  const { locl } = useLocalify();
+  const { getMessage } = useLocalify();
 
   const message = useMemo(() => {
-    const existingMessage = locl(children, { id, vars });
+    const existingMessage = getMessage(children, { id, vars });
     return existingMessage || children;
-  }, [children, locl, id, vars]);
+  }, [children, getMessage, id, vars]);
 
   return <Fragment>{message}</Fragment>;
 }

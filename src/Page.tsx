@@ -3,7 +3,7 @@ import { useLocalify } from './lib/useLocalify';
 import { version } from '../package.json';
 
 export default function Page() {
-  const { setLocale, locale } = useLocalify();
+  const { setLocale, locale, getMergedMessages } = useLocalify();
 
   return (
     <div>
@@ -22,14 +22,19 @@ export default function Page() {
       <p>
         <Locl>This is the lorem-ipsun paragraph.</Locl>
       </p>
-      <small>
-        <Locl vars={{ version }}>
-          Current version: [[version]].{' '}
-          <a href="https://github.com/pradella/react-localify">
-            Go github repo
-          </a>
-        </Locl>
-      </small>
+      <button onClick={() => console.log(getMergedMessages())}>
+        Get merged messages
+      </button>
+      <p>
+        <small>
+          <Locl vars={{ version }}>
+            Current version: [[version]].{' '}
+            <a href="https://github.com/pradella/react-localify">
+              Go github repo
+            </a>
+          </Locl>
+        </small>
+      </p>
     </div>
   );
 }

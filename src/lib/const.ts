@@ -1,6 +1,6 @@
 import { Languages } from './types';
 
-export const popularLocales: Languages = {
+export const languages: Languages = {
   'en-US': { locale: 'en-US', language: 'English', region: 'United States' },
   'zh-CN': { locale: 'zh-CN', language: 'Chinese', region: 'China' },
   'es-ES': { locale: 'es-ES', language: 'Spanish', region: 'Spain' },

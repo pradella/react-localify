@@ -3,13 +3,25 @@ import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
 
 import { LocalifyContext } from './LocalifyContext';
-import { addUntrackedMessage, convertMessageToKey, replaceAll } from './utils';
+import {
+  addUntrackedMessage,
+  convertMessageToKey,
+  getUntrackedMessages,
+  replaceAll,
+} from './utils';
+import { languages } from './const';
+import { Messages } from './types';
 
 export type LocalifyVars = {
   [key: string]: LocalifyVar;
 };
 
 type LocalifyVar = string | number;
+
+type GetMessageOptions = {
+  id?: string;
+  vars?: LocalifyVars;
+};
 
 export const useLocalify = () => {
   const context = useContext(LocalifyContext);
@@ -19,10 +31,7 @@ export const useLocalify = () => {
 
   function getMessage(
     message: string | ReactNode,
-    options?: {
-      id?: string;
-      vars?: LocalifyVars;
-    }
+    options?: GetMessageOptions
   ) {
     const locale = context?.locale;
 
@@ -60,7 +69,7 @@ export const useLocalify = () => {
 
     // if message does not exists, add to untracked
     if (!existsInMessages && context.debug)
-      addUntrackedMessage(message, locale);
+      addUntrackedMessage(message, context.defaultLocale);
 
     return returnMessage &&
       typeof returnMessage === 'string' &&
@@ -69,7 +78,45 @@ export const useLocalify = () => {
       : returnMessage;
   }
 
-  return { ...context, locl: getMessage };
+  // works only with plain text
+  function locl(message: string, options?: GetMessageOptions) {
+    const existingMessage = getMessage(message, options) as string;
+    return existingMessage || message;
+  }
+
+  function getLanguages() {
+    return languages;
+  }
+
+  function getMergedMessages() {
+    function mergeMessages(obj1: Messages, obj2: Messages) {
+      const merged: Messages = {};
+
+      // Merge keys from object1
+      Object.keys(obj1).forEach((key) => {
+        if (obj2[key]) {
+          // Merge common keys with nested locales
+          merged[key] = { ...obj1[key], ...obj2[key] };
+        } else {
+          // Add keys that exist only in object1
+          merged[key] = obj1[key];
+        }
+      });
+
+      // Merge keys from object2 that don't already exist in merged
+      Object.keys(obj2).forEach((key) => {
+        if (!obj1[key]) {
+          merged[key] = obj2[key];
+        }
+      });
+
+      return merged;
+    }
+
+    return mergeMessages(context?.messages || {}, getUntrackedMessages());
+  }
+
+  return { ...context, getMessage, locl, getLanguages, getMergedMessages };
 };
 
 function stringToReactElement(htmlString: string) {
