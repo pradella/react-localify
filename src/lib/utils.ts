@@ -38,9 +38,6 @@ export function addUntrackedMessage(
   message: string | ReactNode,
   locale: LocaleId
 ) {
-  // only in dev mode
-  if (!import.meta.env.DEV) return;
-
   const id = convertMessageToKey(message);
 
   if (untrackedMessages[id]) return;

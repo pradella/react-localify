@@ -3,7 +3,7 @@ import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
 
 import { LocalifyContext } from './LocalifyContext';
-import { convertMessageToKey, replaceAll } from './utils';
+import { addUntrackedMessage, convertMessageToKey, replaceAll } from './utils';
 
 export type LocalifyVars = {
   [key: string]: LocalifyVar;
@@ -28,33 +28,48 @@ export const useLocalify = () => {
 
     if (!locale) return message;
 
+    let existsInMessages = false;
+
     // if no id provided, generated from message
     const id = options?.id || convertMessageToKey(message);
 
-    let label: string | undefined = undefined;
+    let returnMessage: string | undefined = undefined;
     try {
       // get label from database (labels.json)
       // for some reasons, must use || because sometimes comes undefined with _.get
-      label = context.messages[id][locale];
+      returnMessage = context.messages[id][locale];
+
+      // means that message was found in messages
+      existsInMessages = !!returnMessage;
 
       // replace all vars
       if (options?.vars) {
         Object.keys(options.vars).forEach((key) => {
           const replacement = options.vars ? options.vars[key] : undefined;
-          if (label && replacement)
-            label = replaceAll(label, `[[${key}]]`, `${replacement}`);
+          if (returnMessage && replacement)
+            returnMessage = replaceAll(
+              returnMessage,
+              `[[${key}]]`,
+              `${replacement}`
+            );
         });
       }
     } catch (err) {
       //
     }
 
-    return label && typeof label === 'string' && label.includes('<')
-      ? stringToReactElement(label)
-      : label;
+    // if message does not exists, add to untracked
+    if (!existsInMessages && context.debug)
+      addUntrackedMessage(message, locale);
+
+    return returnMessage &&
+      typeof returnMessage === 'string' &&
+      returnMessage.includes('<')
+      ? stringToReactElement(returnMessage)
+      : returnMessage;
   }
 
-  return { ...context, getMessage };
+  return { ...context, locl: getMessage };
 };
 
 function stringToReactElement(htmlString: string) {

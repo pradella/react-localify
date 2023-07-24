@@ -17,7 +17,7 @@ import { LocaleId, Messages } from './types';
 
 // Define the shape of the context value
 interface LocalifyContextValue extends State {
-  getMessage: (id: string, locale: LocaleId) => string | undefined;
+  debug?: boolean;
   setMessages: (newMessages: Messages) => void;
   setMessage: (id: string, locale: LocaleId, message: string) => void;
   setLocale: (locale: LocaleId) => void;
@@ -96,6 +96,7 @@ interface LocalifyProviderProps {
   locale?: 'auto' | LocaleId;
   children: ReactNode;
   persistLocaleChange?: boolean;
+  debug?: boolean;
 }
 
 // Create a provider component to wrap your app and provide the context value
@@ -104,6 +105,7 @@ export const LocalifyProvider = ({
   locale = 'auto',
   children,
   persistLocaleChange = false,
+  debug = false,
 }: LocalifyProviderProps) => {
   const [state, dispatch] = useReducer(localifyReducer, initialState);
   const [ready, setReady] = useState(false);
@@ -132,10 +134,6 @@ export const LocalifyProvider = ({
     }
   }, [persistLocaleChange]);
 
-  const getMessage = (id: string, locale: LocaleId) => {
-    return state.messages[id]?.[locale];
-  };
-
   const setMessages = (newMessages: Messages) => {
     dispatch({ type: 'SET_MESSAGES', payload: newMessages });
   };
@@ -157,7 +155,7 @@ export const LocalifyProvider = ({
 
   const contextValue: LocalifyContextValue = {
     ...state,
-    getMessage,
+    debug,
     setMessages,
     setMessage,
     setLocale,

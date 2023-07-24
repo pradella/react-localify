@@ -1,7 +1,6 @@
 import { ReactNode, Fragment, useMemo } from 'react';
 
 import { LocalifyVars, useLocalify } from './useLocalify';
-import { addUntrackedMessage } from './utils';
 
 type LoclProps = {
   children: string | ReactNode;
@@ -10,13 +9,12 @@ type LoclProps = {
 };
 
 export function Locl({ children, id, vars }: LoclProps) {
-  const { getMessage, locale } = useLocalify();
+  const { locl } = useLocalify();
 
   const message = useMemo(() => {
-    const existingMessage = getMessage(children, { id, vars });
-    if (!existingMessage) addUntrackedMessage(children, locale);
+    const existingMessage = locl(children, { id, vars });
     return existingMessage || children;
-  }, [children, getMessage, locale, id, vars]);
+  }, [children, locl, id, vars]);
 
   return <Fragment>{message}</Fragment>;
 }

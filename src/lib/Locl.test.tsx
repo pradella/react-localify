@@ -127,7 +127,7 @@ describe('Locl', () => {
     const { result } = renderHook(useLocalify, {
       wrapper: wrapper,
     });
-    expect(result.current.getMessage(text)).toBe(translated);
+    expect(result.current.locl(text)).toBe(translated);
   });
 
   it('render in portuguese with SPAN tag', async () => {

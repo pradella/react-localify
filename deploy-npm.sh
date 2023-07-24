@@ -1,7 +1,7 @@
 # exit automatically if any command returns a non-zero exit code
 set -e
 
-yarn test
+vitest --run
 
 export BUILD_MODE=lib
 
