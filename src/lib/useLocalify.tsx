@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react';
-import _ from 'lodash';
-import ReactHtmlParser from 'react-html-parser';
+import DOMPurify from 'dompurify';
+import parse from 'html-react-parser';
 
 import { LocalifyContext } from './LocalifyContext';
 import { convertMessageToKey } from './utils';
@@ -22,9 +22,7 @@ export const useLocalify = () => {
     try {
       // get label from database (labels.json)
       // for some reasons, must use || because sometimes comes undefined with _.get
-      label =
-        (_.get(context.messages, `${key}.${locale}`) as unknown as string) ||
-        context.messages[key as string][locale];
+      label = context.messages[key as string][locale];
 
       // replace wildcards (if exists)
       //   label = replaceWildcards(label, {
@@ -33,8 +31,24 @@ export const useLocalify = () => {
     } catch (err) {
       //
     }
-    return label && typeof label !== 'string' ? ReactHtmlParser(label) : label;
+
+    return label && typeof label === 'string' && label.includes('<')
+      ? stringToReactElement(label)
+      : label;
   }
 
   return { ...context, getMessage };
 };
+
+function stringToReactElement(htmlString: string) {
+  // Sanitize the HTML string using DOMPurify
+  const sanitizedHTML = DOMPurify.sanitize(htmlString, {
+    USE_PROFILES: { html: true },
+  });
+
+  // Parse the sanitized HTML string into React elements
+  const reactElements = parse(sanitizedHTML);
+
+  // Return the array of React elements
+  return reactElements;
+}

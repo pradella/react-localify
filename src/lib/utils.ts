@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import slugify from 'slugify';
-import _ from 'lodash';
+import { renderToString } from 'react-dom/server';
+
 import { LocaleId, Message, Messages } from './LocalifyContext';
 
 export function convertMessageToKey(text: string | ReactNode): string {
@@ -32,25 +33,8 @@ export function convertMessageToKey(text: string | ReactNode): string {
 }
 
 export function jsxToString(jsx: unknown): string {
-  const string = _.map(Array.isArray(jsx) ? jsx : [jsx], (el) => {
-    return el?.type && el?.props?.children
-      ? `<${typeToTag(el.type, el?.props)}>${jsxToString(
-          el.props.children
-        )}</${typeToTag(el.type)}>`
-      : el;
-  });
-  return string.join('');
-
-  function typeToTag(type: unknown, props?: { [key: string]: unknown }) {
-    function propsToAttr(props: { [key: string]: unknown }) {
-      const keys = _.filter(_.keys(props), (key) => key !== 'children');
-      return _.map(keys, (key) => `${key}="${props[key]}"`).join(' ');
-    }
-    const tags = ['span', 'strong', 'div', 'a'];
-    return tags.includes(type as string)
-      ? `${type} ${props ? propsToAttr(props) : ''}`
-      : '';
-  }
+  const asString = renderToString(jsx as ReactElement);
+  return asString;
 }
 
 let untrackedMessages: Messages = {};

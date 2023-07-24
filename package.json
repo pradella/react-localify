@@ -19,14 +19,15 @@
     "node": "16"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "dompurify": "^3.0.5",
+    "html-react-parser": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-html-parser": "^2.0.2",
     "slugify": "^1.6.6"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
+    "@types/dompurify": "^3.0.2",
     "@types/lodash": "^4.14.195",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
