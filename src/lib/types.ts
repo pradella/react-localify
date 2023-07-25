@@ -7,9 +7,11 @@ export type LocaleId =
   | 'ja-JP'
   | 'de-DE'
   | 'fr-FR'
-  | 'hi-IN'
-  | 'ar-SA'
+  | 'hi-IN' // Hindi
+  | 'ar-SA' // Arabic
   | 'it-IT'
+  | 'pl-PL' // Polish
+  | 'nl-NL' // Dutch
   | string;
 
 export type Languages = { [locale in LocaleId]: Language };
@@ -18,6 +20,8 @@ export type Language = {
   locale: LocaleId;
   language: string;
   region: string;
+  languageLocalized: string;
+  regionLocalized: string;
 };
 
 export type Messages = {

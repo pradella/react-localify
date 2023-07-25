@@ -13,12 +13,14 @@ import {
   removeLocalStorageLocale,
   setLocalStorageLocale,
 } from './utils';
-import { LocaleId, Messages } from './types';
+import { Languages, LocaleId, Messages } from './types';
+import { languages } from './const';
 
 // Define the shape of the context value
 interface LocalifyContextValue extends State {
   debug?: boolean;
   defaultLocale: LocaleId;
+  languages: Languages;
   setMessages: (newMessages: Messages) => void;
   setMessage: (id: string, locale: LocaleId, message: string) => void;
   setLocale: (locale: LocaleId) => void;
@@ -158,6 +160,7 @@ export const LocalifyProvider = ({
 
   const contextValue: LocalifyContextValue = {
     ...state,
+    languages,
     debug,
     defaultLocale,
     setMessages,

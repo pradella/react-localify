@@ -84,10 +84,6 @@ export const useLocalify = () => {
     return existingMessage || message;
   }
 
-  function getLanguages() {
-    return languages;
-  }
-
   function getMergedMessages() {
     function mergeMessages(obj1: Messages, obj2: Messages) {
       const merged: Messages = {};
@@ -116,7 +112,22 @@ export const useLocalify = () => {
     return mergeMessages(context?.messages || {}, getUntrackedMessages());
   }
 
-  return { ...context, getMessage, locl, getLanguages, getMergedMessages };
+  // list of available languages, based on the existing messages
+  function getAvailableLanguages() {
+    const messages = context?.messages || {};
+    const [firstKey] = Object.keys(messages);
+    if (!firstKey) return [];
+    const availableLocales = Object.keys(messages[firstKey]);
+    return availableLocales.map((locale) => languages[locale]);
+  }
+
+  return {
+    ...context,
+    getMessage,
+    locl,
+    getMergedMessages,
+    getAvailableLanguages,
+  };
 };
 
 function stringToReactElement(htmlString: string) {

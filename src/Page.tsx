@@ -3,7 +3,7 @@ import { useLocalify } from './lib/useLocalify';
 import { version } from '../package.json';
 
 export default function Page() {
-  const { setLocale, locale, getMergedMessages } = useLocalify();
+  const { setLocale, locale, getAvailableLanguages } = useLocalify();
 
   return (
     <div>
@@ -22,8 +22,8 @@ export default function Page() {
       <p>
         <Locl>This is the lorem-ipsun paragraph.</Locl>
       </p>
-      <button onClick={() => console.log(getMergedMessages())}>
-        Get merged messages
+      <button onClick={() => console.log(getAvailableLanguages())}>
+        Get available languages
       </button>
       <p>
         <small>
