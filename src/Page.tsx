@@ -16,9 +16,7 @@ export default function Page() {
       <button onClick={() => setLocale('pt-BR')} disabled={locale === 'pt-BR'}>
         Portuguese
       </button>
-      <h3>
-        <Locl>Headline comes here</Locl>
-      </h3>
+      <h3>{locale}</h3>
       <p>
         <Locl>This is the lorem-ipsun paragraph.</Locl>
       </p>

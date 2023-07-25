@@ -2,6 +2,7 @@ import { ReactElement, ReactNode } from 'react';
 import slugify from 'slugify';
 import { renderToString } from 'react-dom/server';
 import { LocaleId, Message, Messages } from './types';
+import { languages } from './const';
 
 export function convertMessageToKey(text: string | ReactNode): string {
   function sanitizeKey(text: string): string {
@@ -62,7 +63,7 @@ export function getUntrackedMessages() {
   return untrackedMessages;
 }
 
-export function getBrowserLocale(): LocaleId | string {
+export function getBrowserLocale(): LocaleId | string | undefined {
   let browserLocale: string | undefined = undefined;
 
   if (navigator.languages && navigator.languages.length) {
@@ -70,7 +71,7 @@ export function getBrowserLocale(): LocaleId | string {
     browserLocale = navigator.languages[0];
   } else {
     // Fallback to navigator.language if navigator.languages is not available
-    browserLocale = navigator.language || 'en-US';
+    browserLocale = navigator.language;
   }
 
   return browserLocale;
@@ -78,7 +79,7 @@ export function getBrowserLocale(): LocaleId | string {
 
 const localStorageLocaleKey = 'locale';
 export function getLocalStorageLocale() {
-  return window.localStorage.getItem(localStorageLocaleKey);
+  return window.localStorage.getItem(localStorageLocaleKey) || undefined;
 }
 
 export function setLocalStorageLocale(locale: LocaleId) {
@@ -98,4 +99,21 @@ export function replaceAll(str: string, search: string, replacement: string) {
 
   // Use the replace method of the string with the regex to perform the replacements
   return str.replace(regex, replacement);
+}
+
+// list of available languages, based on the existing messages
+export function getAvailableLanguages(messages: Messages = {}) {
+  const [firstKey] = Object.keys(messages);
+  if (!firstKey) return [];
+  const availableLocales = Object.keys(messages[firstKey]);
+  return availableLocales.map((locale) => languages[locale]);
+}
+
+// an available locale means that locale exists on messages
+export function isLocaleAvailable(
+  locale: string | undefined,
+  messages: Messages = {}
+) {
+  const availableLanguages = getAvailableLanguages(messages);
+  return !!availableLanguages.find((l) => l.locale === locale);
 }

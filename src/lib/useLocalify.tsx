@@ -6,10 +6,10 @@ import { LocalifyContext } from './LocalifyContext';
 import {
   addUntrackedMessage,
   convertMessageToKey,
+  getAvailableLanguages,
   getUntrackedMessages,
   replaceAll,
 } from './utils';
-import { languages } from './const';
 import { Messages } from './types';
 
 export type LocalifyVars = {
@@ -69,7 +69,7 @@ export const useLocalify = () => {
 
     // if message does not exists, add to untracked
     if (!existsInMessages && context.debug)
-      addUntrackedMessage(message, context.defaultLocale);
+      addUntrackedMessage(message, context.originLocale);
 
     return returnMessage &&
       typeof returnMessage === 'string' &&
@@ -112,21 +112,12 @@ export const useLocalify = () => {
     return mergeMessages(context?.messages || {}, getUntrackedMessages());
   }
 
-  // list of available languages, based on the existing messages
-  function getAvailableLanguages() {
-    const messages = context?.messages || {};
-    const [firstKey] = Object.keys(messages);
-    if (!firstKey) return [];
-    const availableLocales = Object.keys(messages[firstKey]);
-    return availableLocales.map((locale) => languages[locale]);
-  }
-
   return {
     ...context,
     getMessage,
     locl,
     getMergedMessages,
-    getAvailableLanguages,
+    getAvailableLanguages: () => getAvailableLanguages(context.messages),
   };
 };
 

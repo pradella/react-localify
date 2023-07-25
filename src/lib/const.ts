@@ -1,5 +1,7 @@
 import { Languages } from './types';
 
+export const defaultLocale = 'en-US';
+
 // List of popular languages
 // It will increase over the popularity of this library
 export const languages: Languages = {

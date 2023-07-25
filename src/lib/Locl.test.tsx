@@ -8,6 +8,7 @@ import { ReactNode } from 'react';
 import { Locl } from './Locl';
 import { LocalifyProvider } from './LocalifyContext';
 import { useLocalify } from './useLocalify';
+import { defaultLocale } from './const';
 
 const messages = {
   'Hello-world': {
@@ -187,6 +188,68 @@ describe('Locl', () => {
     const element = screen.getByTestId('with-vars');
     expect(element.outerHTML).toBe(
       '<div data-testid="with-vars">Versão atual: 0.0.7. <a href="https://github.com/pradella/react-localify">Ir para github repo</a></div>'
+    );
+  });
+
+  it('should initial locale be set by locale props', async () => {
+    const locale = 'es-ES';
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <LocalifyProvider messages={messages} locale={locale}>
+        {children}
+      </LocalifyProvider>
+    );
+
+    const { result } = renderHook(useLocalify, {
+      wrapper: wrapper,
+    });
+    expect(result.current.locale).toBe(locale);
+  });
+
+  it('should initial locale be set by originLocale props', async () => {
+    const originLocale = 'es-ES';
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <LocalifyProvider
+        messages={messages}
+        locale="invalid"
+        originLocale={originLocale}
+      >
+        {children}
+      </LocalifyProvider>
+    );
+
+    const { result } = renderHook(useLocalify, {
+      wrapper: wrapper,
+    });
+    expect(result.current.locale).toBe(originLocale);
+  });
+
+  it('should initial locale be set by default if both origin and locale are invalid', async () => {
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <LocalifyProvider
+        messages={messages}
+        locale="invalid"
+        originLocale="invalid"
+      >
+        {children}
+      </LocalifyProvider>
+    );
+
+    const { result } = renderHook(useLocalify, {
+      wrapper: wrapper,
+    });
+    expect(result.current.locale).toBe(defaultLocale);
+  });
+
+  it('should available languages return same as messages', async () => {
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <LocalifyProvider messages={messages}>{children}</LocalifyProvider>
+    );
+
+    const { result } = renderHook(useLocalify, {
+      wrapper: wrapper,
+    });
+    expect(result.current.getAvailableLanguages().length).toBe(
+      ['en-US', 'pt-BR', 'es-ES'].length
     );
   });
 });
