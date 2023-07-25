@@ -166,6 +166,18 @@ const UntrackedMessages = () => {
 
 After running your application and interacting with it, you can check the console output to see the list of untracked messages. Make sure to add these messages to your messages object to ensure complete app localization.
 
+## Parameters
+
+The `<LocalifyProvider>`` component accepts several optional parameters that allow you to customize the behavior of the localization system in your app.
+
+- `debug` (optional - default value: `false`): When set to `true`, the `debug` parameter will display messages on the console whenever a text is not found during rendering. This can be useful for identifying missing translations and unlocalized texts.
+
+- `locale` (optional - default value: `'auto'`): The `locale` parameter allows you to specify the initial locale for your app. It accepts a string value representing the locale (e.g., `'en-US'`, `'pt-BR'`). If not specified, the default value is 'auto', which will detect the browser's locale and use it as the initial locale.
+
+- `originLocale` (optional): The `originLocale` parameter is used to specify the locale from the original texts wrapped in components or called in functions. It is particularly helpful for identifying the locale of messages not found during rendering and marking them as untracked. If `originLocale` is not specified, it falls back to the locale prop value.
+
+- `persistLocaleChange` (optional - default value: `false`): Setting persistLocaleChange to `true` will save the user's language selection in local storage. This allows the app to retrieve the previously selected language the next time the user accesses it.
+
 ## Contribute
 
 We welcome contributions from the community! If you find a bug, have a feature request, or want to improve the library, please open an issue or submit a pull request on our GitHub repository.
