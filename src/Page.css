@@ -1,0 +1,45 @@
+#page {
+  max-width: 600px;
+}
+
+.outline {
+  display: inline-flex;
+  border-radius: 100px;
+  border: 1px solid #444;
+  padding: 4px 16px 4px 16px;
+}
+
+#page p {
+  font-size: large;
+}
+
+#page pre {
+  padding: 20px;
+}
+
+#page code {
+  font-size: large;
+  background-color: black;
+  border-radius: 8px;
+  padding: 8px 12px 8px 12px;
+  border: 1px solid #333;
+}
+
+#page hr {
+  margin-top: 30px;
+  border-color: #000;
+}
+
+.created-by,
+.created-by a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.created-by img {
+  border-radius: 9999px;
+  border: 1px solid #666;
+  margin: 8px;
+}

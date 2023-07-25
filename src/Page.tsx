@@ -1,38 +1,46 @@
-import { Locl } from './lib/Locl';
-import { useLocalify } from './lib/useLocalify';
-import { version } from '../package.json';
+import './Page.css';
 
 export default function Page() {
-  const { setLocale, locale, getAvailableLanguages } = useLocalify();
-
   return (
-    <div>
-      <h1>
-        <Locl>Hello, world</Locl>
-      </h1>
-      <button onClick={() => setLocale('en-US')} disabled={locale === 'en-US'}>
-        English
-      </button>
-      <button onClick={() => setLocale('pt-BR')} disabled={locale === 'pt-BR'}>
-        Portuguese
-      </button>
-      <h3>{locale}</h3>
+    <main id="page">
+      <span className="outline">Introducing React Localify</span>
+      <h1>The Definitive Library for Effortless App Localization</h1>
       <p>
-        <Locl>This is the lorem-ipsun paragraph.</Locl>
+        Say goodbye to message ids and embrace simplicity with React Localify
       </p>
-      <button onClick={() => console.log(getAvailableLanguages())}>
-        Get available languages
-      </button>
+
+      <pre>
+        <code>npm install react-localify</code>
+      </pre>
+
       <p>
         <small>
-          <Locl vars={{ version }}>
-            Current version: [[version]].{' '}
-            <a href="https://github.com/pradella/react-localify">
-              Go github repo
-            </a>
-          </Locl>
+          <a href="https://github.com/pradella/react-localify" target="blank">
+            GitHub
+          </a>{' '}
+          •{' '}
+          <a href="https://www.npmjs.com/package/react-localify" target="blank">
+            NPM
+          </a>
         </small>
       </p>
-    </div>
+
+      <small className="created-by">
+        <span>Created by</span>
+        <a href="https://twitter.com/pradella" target="_blank">
+          <img
+            alt=""
+            src="https://lh3.googleusercontent.com/a/AAcHTtdz4dGoWzQneSROkeQS9B8SPwPk1kK48mPiuEvU5A=s96-c"
+            width="26"
+            height="26"
+            decoding="async"
+            data-nimg="1"
+            loading="lazy"
+            style={{ color: 'transparent' }}
+          ></img>
+          <span>Maurício Pradella</span>
+        </a>
+      </small>
+    </main>
   );
 }
