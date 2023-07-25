@@ -1,27 +1,97 @@
-# React + TypeScript + Vite
+# React Localify: Effortless App Localization for React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![npm version](https://badge.fury.io/js/react-localify.svg)](https://badge.fury.io/js/react-localify)
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+react-localify is a lightweight and user-friendly React library for effortless app localization. Simplify your localization workflow without the need for message IDs. It provides a straightforward approach to make your React applications accessible to global audiences by supporting multiple languages with ease.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Easy installation with npm: `npm install react-localify`
+- Effortless configuration and setup
+- Support for multiple languages out of the box
+- Simple API for language toggling
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+To start using react-localify in your React project, simply run the following npm command:
+
+```bash
+npm install react-localify
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Get Started
+
+1. Import the necessary components into your app:
+
+```jsx
+import { LocalifyProvider, Locl, useLocalify } from 'react-localify';
+```
+
+2. Set up your messages for different languages
+
+```jsx
+const messages = {
+  'Hello-world': {
+    'en-US': 'Hello, world',
+    'pt-BR': 'Olá, mundo',
+  },
+  Goodbye: {
+    'en-US': 'Goodbye',
+    'pt-BR': 'Adeus',
+  },
+};
+```
+
+3. Wrap your app with the LocalifyProvider and pass the messages prop:
+
+```jsx
+const App = () => {
+  return (
+    <LocalifyProvider messages={messages}>
+      {/* Your app components */}
+    </LocalifyProvider>
+  );
+};
+```
+
+4. Use the <Locl> component to localize your text:
+
+```jsx
+const ExampleComponent = () => {
+  return (
+    <div>
+      <Locl>Hello, world</Locl>
+    </div>
+  );
+};
+```
+
+5. Implement a language toggle
+
+```jsx
+const LanguageToggle = () => {
+  const { setLocale } = useLocalify();
+
+  const handleLanguageChange = (locale) => {
+    setLocale(locale);
+  };
+
+  return (
+    <div>
+      <button onClick={() => handleLanguageChange('en-US')}>English</button>
+      <button onClick={() => handleLanguageChange('pt-BR')}>Portuguese</button>
+      {/* Add more language options as needed */}
+    </div>
+  );
+};
+```
+
+## Contribute
+
+We welcome contributions from the community! If you find a bug, have a feature request, or want to improve the library, please open an issue or submit a pull request on our GitHub repository.
+
+## License
+
+This project is licensed under the MIT License.
