@@ -6,6 +6,7 @@ export default function Page() {
       <span className="outline">Introducing React Localify</span>
       <h1>The Definitive Library for Effortless App Localization</h1>
       <p>
+        Make localization easier for all developers. <br />
         Say goodbye to message ids and embrace simplicity with React Localify
       </p>
 
