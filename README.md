@@ -168,7 +168,7 @@ After running your application and interacting with it, you can check the consol
 
 ## Parameters
 
-The `<LocalifyProvider>`` component accepts several optional parameters that allow you to customize the behavior of the localization system in your app.
+The `<LocalifyProvider>` component accepts several optional parameters that allow you to customize the behavior of the localization system in your app.
 
 - `debug` (optional - default value: `false`): When set to `true`, the `debug` parameter will display messages on the console whenever a text is not found during rendering. This can be useful for identifying missing translations and unlocalized texts.
 
