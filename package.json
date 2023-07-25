@@ -1,12 +1,23 @@
 {
   "name": "react-localify",
   "private": false,
-  "version": "0.0.15",
+  "version": "1.0.0",
   "type": "module",
-  "description": "",
+  "description": "A React library for effortless app localization",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pradella/react-localify.git"
+  },
+  "homepage": "https://www.npmjs.com/package/react-localify",
+  "keywords": [
+    "react",
+    "localization",
+    "i18n",
+    "npm",
+    "library"
+  ],
   "license": "MIT",
   "author": "Mauricio Pradella",
-  "keywords": [],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
