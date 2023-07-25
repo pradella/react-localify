@@ -68,7 +68,7 @@ const ExampleComponent = () => {
 };
 ```
 
-5. Localize texts when they are strings or plain texts in your code using the `locl` function:
+5. Sometimes, during development, you might use plain text directly in your components, such as error messages or placeholder texts. Localize texts when they are strings or plain texts in your code using the `locl` function:
 
 ```jsx
 <input placeholder={locl('Enter your name')} />
@@ -94,9 +94,57 @@ const LanguageToggle = () => {
 };
 ```
 
+## Using Variables
+
+To handle dynamic content and personalize your localized text, you can use variables in both the `<Locl>` component and the ` locl` function. The syntax for defining variables is `[[variableName]]`.
+
+### Example with <Locl> Component:
+
+```jsx
+const ExampleComponent = () => {
+  const PROJECT_NAME = 'My Project';
+
+  return (
+    <div>
+      <Locl vars={{ projectName: PROJECT_NAME }}>
+        Welcome to [[projectName]]
+      </Locl>
+    </div>
+  );
+};
+```
+
+In the above example, we used the vars prop in the `<Locl>` component to pass the `PROJECT_NAME`variable. The variable is then referenced in the text as `[[projectName]]`.
+
+### Example with locl Function:
+
+```jsx
+const AnotherComponent = () => {
+  const PROJECT_NAME = 'My Project';
+
+  return (
+    <div>
+      <button
+        onClick={() =>
+          locl(`Welcome to [[projectName]]`, {
+            vars: { projectName: PROJECT_NAME },
+          })
+        }
+      >
+        Click me
+      </button>
+    </div>
+  );
+};
+```
+
+In this case, we used the locl function directly in the `onClick` event of a button. The variable `PROJECT_NAME` is passed as part of the vars object and referenced in the text as `[[projectName]]`.
+
+By utilizing variables, you can easily adapt your localized text to include dynamic content and make your app feel more personalized to users.
+
 ## Retrieve non-localized texts
 
-Sometimes, during development, you might use plain text directly in your components, such as error messages or placeholder texts. When using the `<Locl>` component or the `locl` function, these texts are automatically added to the localization system with a slugified key.
+When using the `<Locl>` component or the `locl` function, these texts are automatically added to the localization system with a slugified key.
 
 To retrieve all the pending texts that need to be localized, you can call the `getMergedMessages` function. This function will print on the console the updated `messages` object, which contains all the localized messages and any untracked messages that need to be translated.
 
@@ -125,7 +173,3 @@ We welcome contributions from the community! If you find a bug, have a feature r
 ## License
 
 This project is licensed under the MIT License.
-
-```
-
-```
