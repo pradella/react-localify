@@ -1,7 +1,7 @@
 {
   "name": "react-localify",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.2-alpha.3",
   "type": "module",
   "description": "A React library for effortless app localization",
   "repository": {
@@ -24,6 +24,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy:npm": "bash deploy-npm.sh",
+    "deploy:npm:alpha": "bash deploy-npm.sh alpha",
     "test": "vitest"
   },
   "engines": {
@@ -62,12 +63,12 @@
   ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
-  "types": "dist/src/lib/index.d.ts",
+  "types": "dist/lib/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js",
-      "types": "./dist/src/lib/index.d.ts"
+      "types": "./dist/lib/index.d.ts"
     }
   }
 }
