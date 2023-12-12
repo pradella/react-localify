@@ -1,7 +1,7 @@
 {
   "name": "react-localify",
   "private": false,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "A React library for effortless app localization",
   "repository": {
@@ -28,7 +28,7 @@
     "test": "vitest"
   },
   "engines": {
-    "node": "16"
+    "node": ">=16"
   },
   "dependencies": {
     "dompurify": "^3.0.5",
