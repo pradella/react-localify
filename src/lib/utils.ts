@@ -106,7 +106,16 @@ export function getAvailableLanguages(messages: Messages = {}) {
   const [firstKey] = Object.keys(messages);
   if (!firstKey) return [];
   const availableLocales = Object.keys(messages[firstKey]);
-  return availableLocales.map((locale) => languages[locale]);
+  return availableLocales.map(
+    (locale) =>
+      languages[locale] || {
+        locale,
+        language: locale,
+        region: locale,
+        languageLocalized: locale,
+        regionLocalized: locale,
+      }
+  );
 }
 
 // an available locale means that locale exists on messages
