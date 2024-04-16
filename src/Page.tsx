@@ -1,13 +1,24 @@
 import './Page.css';
+import { Locl, useLocalify } from './lib';
 
 export default function Page() {
+  const { setLocale, getAvailableLanguages } = useLocalify();
+
+  const languages = getAvailableLanguages();
+
   return (
     <main id="page">
-      <span className="outline">Introducing React Localify</span>
-      <h1>The Definitive Library for Effortless App Localization</h1>
+      <span className="outline">
+        <Locl>Introducing React Localify</Locl>
+      </span>
+      <h1>
+        <Locl>The Definitive Library for Effortless App Localization</Locl>
+      </h1>
       <p>
-        Make localization easier for all developers. <br />
-        Say goodbye to message ids and embrace simplicity with React Localify
+        <Locl>Make localization easier for all developers.</Locl> <br />
+        <Locl>
+          Say goodbye to message ids and embrace simplicity with React Localify
+        </Locl>
       </p>
 
       <pre>
@@ -26,8 +37,26 @@ export default function Page() {
         </small>
       </p>
 
+      <hr />
+
+      <h3>
+        <Locl>See in action</Locl>:
+      </h3>
+
+      <select onChange={(e) => setLocale(e.currentTarget.value)}>
+        {languages.map((lang) => (
+          <option key={lang.locale} value={lang.locale}>
+            {lang.language}
+          </option>
+        ))}
+      </select>
+
+      <hr />
+
       <small className="created-by">
-        <span>Created by</span>
+        <span>
+          <Locl>Created by</Locl>
+        </span>
         <a href="https://twitter.com/pradella" target="_blank">
           <img
             alt=""

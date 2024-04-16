@@ -1,7 +1,7 @@
 {
   "name": "react-localify",
   "private": false,
-  "version": "1.0.3",
+  "version": "1.0.4-alpha.0",
   "type": "module",
   "description": "A React library for effortless app localization",
   "repository": {
@@ -25,7 +25,8 @@
     "preview": "vite preview",
     "deploy:npm": "bash deploy-npm.sh",
     "deploy:npm:alpha": "bash deploy-npm.sh alpha",
-    "test": "vitest"
+    "test": "vitest",
+    "size-report": "npx vite-bundle-visualizer"
   },
   "engines": {
     "node": ">=16"

@@ -27,7 +27,19 @@
 
 #page hr {
   margin-top: 30px;
-  border-color: #000;
+  margin-bottom: 26px;
+
+  border: none;
+  border-top: 1px solid #333; /* Set the hr color */
+  color: #333; /* Old IE */
+  background-color: #333; /* Modern Browsers */
+}
+
+#page select {
+  padding: 8px;
+  font-size: medium;
+  border-radius: 6px;
+  border: 1px solid #333;
 }
 
 .created-by,

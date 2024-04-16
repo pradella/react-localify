@@ -1,14 +1,92 @@
 {
-  "Hello-world": {
-    "en-US": "Hello, world",
-    "pt-BR": "Olá, mundo"
+  "Introducing-React-Localify": {
+    "en-US": "Introducing React Localify",
+    "pt-BR": "Apresentando o React Localify",
+    "zh-CN": "介绍 React Localify",
+    "es-ES": "Presentando React Localify",
+    "ru-RU": "Представляем React Localify",
+    "ja-JP": "React Localify の紹介",
+    "de-DE": "Vorstellung von React Localify",
+    "fr-FR": "Présentation de React Localify",
+    "hi-IN": "React Localify का परिचय",
+    "ar-SA": "تقديم React Localify",
+    "it-IT": "Presentazione di React Localify",
+    "pl-PL": "Przedstawienie React Localify",
+    "nl-NL": "React Localifyの紹介"
   },
-  "Goodbye": {
-    "en-US": "Goodbye",
-    "pt-BR": "Adeus"
+  "The-Definitive-Library-for-Effortless-App-Localization": {
+    "en-US": "The Definitive Library for Effortless App Localization",
+    "pt-BR": "A Biblioteca Definitiva para Localização de Aplicativos sem Esforço",
+    "zh-CN": "无需努力即可本地化应用的权威库",
+    "es-ES": "La Biblioteca Definitiva para la Localización de Aplicaciones sin Esfuerzo",
+    "ru-RU": "Определяющая библиотека для легкой локализации приложений",
+    "ja-JP": "努力せずにアプリのローカライズを行うための決定版ライブラリ",
+    "de-DE": "Die definitive Bibliothek für mühelose App-Lokalisierung",
+    "fr-FR": "La bibliothèque définitive pour la localisation sans effort des applications",
+    "hi-IN": "परिश्रम के बिना ऐप लोकलाइजेशन के लिए निर्धारित पुस्तकालय",
+    "ar-SA": "المكتبة النهائية لتوطين التطبيقات بدون جهد",
+    "it-IT": "La libreria definitiva per la localizzazione senza sforzo delle app",
+    "pl-PL": "Definitywna biblioteka do łatwej lokalizacji aplikacji",
+    "nl-NL": "無駄なくアプリをローカライズするための決定的なライブラリ"
   },
-  "Current-version_-version_-Go-github-repo": {
-    "en-US": "Current version: [[version]].<!-- --> <a href=\"https://github.com/pradella/react-localify\" target=\"_blank\">Go github repo</a>",
-    "pt-BR": "Versão atual: [[version]].<!-- --> <a href=\"https://github.com/pradella/react-localify\" target=\"_blank\">Ir para github repo</a>"
+  "Make-localization-easier-for-all-developers_": {
+    "en-US": "Make localization easier for all developers.",
+    "pt-BR": "Facilite a localização para todos os desenvolvedores.",
+    "zh-CN": "为所有开发人员简化本地化。",
+    "es-ES": "Facilita la localización para todos los desarrolladores.",
+    "ru-RU": "Упростите локализацию для всех разработчиков.",
+    "ja-JP": "すべての開発者にとってローカライゼーションを容易にします。",
+    "de-DE": "Vereinfachen Sie die Lokalisierung für alle Entwickler.",
+    "fr-FR": "Facilitez la localisation pour tous les développeurs.",
+    "hi-IN": "सभी डेवलपर्स के लिए स्थानीयकरण को आसान बनाएं।",
+    "ar-SA": "اجعل التوطين أسهل لجميع المطورين.",
+    "it-IT": "Rendere la localizzazione più facile per tutti gli sviluppatori.",
+    "pl-PL": "Ułatw lokalizację dla wszystkich programistów.",
+    "nl-NL": "すべての開発者にとってローカライゼーションを容易にします。"
+  },
+  "Say-goodbye-to-message-ids-and-embrace-simplicity-with-React-Localify": {
+    "en-US": "Say goodbye to message ids and embrace simplicity with React Localify",
+    "pt-BR": "Diga adeus aos IDs de mensagens e abrace a simplicidade com o React Localify",
+    "zh-CN": "告别消息 ID，拥抱 React Localify 的简单",
+    "es-ES": "Diga adiós a los identificadores de mensajes y abrace la simplicidad con React Localify",
+    "ru-RU": "Попрощайтесь с идентификаторами сообщений и обратитесь к простоте с React Localify",
+    "ja-JP": "メッセージ ID にさようならして、React Localify でシンプルさを受け入れる",
+    "de-DE": "Sagen Sie den Nachrichten-IDs Lebewohl und umarmen Sie die Einfachheit mit React Localify",
+    "fr-FR": "Dites adieu aux identifiants de messages et adoptez la simplicité avec React Localify",
+    "hi-IN": "संदेश आईडी को अलविदा कहें और React Localify के साथ सरलता को गले लगाएं",
+    "ar-SA": "قل وداعًا لمعرفات الرسائل واحتضن البساطة مع React Localify",
+    "it-IT": "Dì addio agli ID dei messaggi e abbraccia la semplicità con React Localify",
+    "pl-PL": "Pozbądź się identyfikatorów wiadomości i przyjmij prostotę z React Localify",
+    "nl-NL": "メッセージIDとさよならして、React Localifyでシンプルさを受け入れる"
+  },
+  "See-in-action": {
+    "en-US": "See in action",
+    "pt-BR": "Veja em ação",
+    "zh-CN": "看看它的表现",
+    "es-ES": "Ver en acción",
+    "ru-RU": "Смотреть в действии",
+    "ja-JP": "実際に見る",
+    "de-DE": "In Aktion sehen",
+    "fr-FR": "Voir en action",
+    "hi-IN": "क्रियान्वित में देखें",
+    "ar-SA": "انظر في العمل",
+    "it-IT": "Vedi in azione",
+    "pl-PL": "Zobacz w akcji",
+    "nl-NL": "実際に見る"
+  },
+  "Created-by": {
+    "en-US": "Created by",
+    "pt-BR": "Criado por",
+    "zh-CN": "创建者",
+    "es-ES": "Creado por",
+    "ru-RU": "Создано",
+    "ja-JP": "作成者",
+    "de-DE": "Erstellt von",
+    "fr-FR": "Créé par",
+    "hi-IN": "द्वारा बनाया गया",
+    "ar-SA": "تم الإنشاء بواسطة",
+    "it-IT": "Creato da",
+    "pl-PL": "Stworzone przez",
+    "nl-NL": "作成者"
   }
 }

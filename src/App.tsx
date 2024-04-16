@@ -7,7 +7,7 @@ export default function App() {
   return (
     <LocalifyProvider
       messages={messages}
-      persistLocaleChange={true}
+      persistLocaleChange={false}
       debug={import.meta.env.DEV}
     >
       <Page />
