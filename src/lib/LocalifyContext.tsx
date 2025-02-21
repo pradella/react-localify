@@ -1,13 +1,8 @@
 // LocalifyContext.tsx
-import {
-  ReactNode,
-  createContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
+import { ReactNode, createContext, useEffect, useReducer, useRef } from 'react';
 
+import { defaultLocale, languages } from './const';
+import { Languages, LocaleId, Messages } from './types';
 import {
   getBrowserLocale,
   getLocalStorageLocale,
@@ -15,8 +10,6 @@ import {
   removeLocalStorageLocale,
   setLocalStorageLocale,
 } from './utils';
-import { Languages, LocaleId, Messages } from './types';
-import { defaultLocale, languages } from './const';
 
 // Define the shape of the context value
 interface LocalifyContextValue extends State {
@@ -30,6 +23,10 @@ interface LocalifyContextValue extends State {
 
 // Action types with discriminant properties
 type Action =
+  | {
+      type: 'INIT_MESSAGES';
+      payload: Messages;
+    }
   | {
       type: 'SET_MESSAGES';
       payload: Messages;
@@ -46,6 +43,7 @@ type Action =
 // Reducer function
 const localifyReducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'INIT_MESSAGES':
     case 'SET_MESSAGES': {
       return {
         ...state,
@@ -53,6 +51,7 @@ const localifyReducer = (state: State, action: Action): State => {
           ...state.messages,
           ...action.payload,
         },
+        ready: action.type === 'INIT_MESSAGES' ? true : state.ready,
       };
     }
     case 'SET_MESSAGE': {
@@ -82,12 +81,14 @@ const localifyReducer = (state: State, action: Action): State => {
 type State = {
   messages: Messages;
   locale: LocaleId;
+  ready: boolean;
 };
 
 // Create the initial state with your messages
 const initialState: State = {
   messages: {},
   locale: defaultLocale,
+  ready: false,
 };
 
 // Create the context
@@ -115,12 +116,11 @@ export const LocalifyProvider = ({
   originLocale = defaultLocale,
 }: LocalifyProviderProps) => {
   const [state, dispatch] = useReducer(localifyReducer, initialState);
-  const [ready, setReady] = useState(false);
+  const setLocaleTouchedRef = useRef(false); // Track if setLocale was called
 
   // Load messages from messages.json and set as initialState
   useEffect(() => {
-    dispatch({ type: 'SET_MESSAGES', payload: messages });
-    setReady(true);
+    dispatch({ type: 'INIT_MESSAGES', payload: messages });
   }, [messages]);
 
   const messagesRef = useRef<Messages>(state.messages);
@@ -129,7 +129,7 @@ export const LocalifyProvider = ({
   // Set the locale value from the prop
   useEffect(() => {
     // make sure messages is in context
-    if (!ready) return;
+    if (!state.ready || setLocaleTouchedRef.current) return;
 
     setInitialLocale();
 
@@ -178,7 +178,7 @@ export const LocalifyProvider = ({
       // in case persist is not enabled, delete from storage
       if (!persistLocaleChange) removeLocalStorageLocale();
     }
-  }, [locale, originLocale, persistLocaleChange, ready]);
+  }, [locale, originLocale, persistLocaleChange, state.ready]);
 
   const setMessages = (newMessages: Messages) => {
     dispatch({ type: 'SET_MESSAGES', payload: newMessages });
@@ -192,6 +192,7 @@ export const LocalifyProvider = ({
   };
 
   const setLocale = (locale: LocaleId) => {
+    setLocaleTouchedRef.current = true; // Mark that a user called setLocale
     dispatch({
       type: 'SET_LOCALE',
       payload: locale,
@@ -211,7 +212,7 @@ export const LocalifyProvider = ({
 
   return (
     <LocalifyContext.Provider value={contextValue}>
-      {ready && children}
+      {state.ready ? children : null}
     </LocalifyContext.Provider>
   );
 };
