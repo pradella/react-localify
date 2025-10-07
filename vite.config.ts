@@ -3,9 +3,8 @@ import react from '@vitejs/plugin-react-swc';
 import dts from 'vite-plugin-dts';
 import path from 'path';
 
-// To deploy as a lib (npm) these were my references:
-// - learningstudioai: shared_react: project I did before
-// - and this here: https://articles.wesionary.team/react-component-library-with-vite-and-deploy-in-npm-579c2880d6ff
+// To deploy as a lib (npm):
+// https://articles.wesionary.team/react-component-library-with-vite-and-deploy-in-npm-579c2880d6ff
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,11 +25,18 @@ export default defineConfig({
             fileName: (format) => `index.${format}.js`,
           },
           rollupOptions: {
-            external: ['react', 'react-dom'],
+            external: [
+              'react',
+              'react-dom',
+              'react/jsx-runtime',
+              'react-dom/server',
+            ],
             output: {
               globals: {
                 react: 'React',
                 'react-dom': 'ReactDOM',
+                'react/jsx-runtime': 'react/jsx-runtime',
+                'react-dom/server': 'ReactDOMServer',
               },
             },
           },
