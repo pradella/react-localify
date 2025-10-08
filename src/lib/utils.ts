@@ -47,11 +47,12 @@ export function addUntrackedMessage(
     typeof message === 'string' ? message : jsxToString(message);
 
   const untrackedMessage: Message = { [locale]: messageAsString };
+  const existing: Message = untrackedMessages[id] || {};
 
   untrackedMessages = {
     ...untrackedMessages,
     [id]: {
-      ...untrackedMessages[id],
+      ...existing,
       ...untrackedMessage,
     },
   };
