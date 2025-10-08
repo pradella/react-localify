@@ -1,8 +1,8 @@
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
 
-import { LocalifyContext } from './LocalifyContext';
+import { useLocalifyStore } from './localifyStore';
 import {
   addUntrackedMessage,
   convertMessageToKey,
@@ -10,6 +10,7 @@ import {
   getUntrackedMessages,
   replaceAll,
 } from './utils';
+import { languages } from './const';
 import { Messages } from './types';
 
 export type LocalifyVars = {
@@ -24,17 +25,19 @@ type GetMessageOptions = {
 };
 
 export const useLocalify = () => {
-  const context = useContext(LocalifyContext);
-  if (!context) {
-    throw new Error('useLocalify must be used within a LocalifyProvider');
-  }
+  const messages = useLocalifyStore((state) => state.messages);
+  const locale = useLocalifyStore((state) => state.locale);
+  const ready = useLocalifyStore((state) => state.ready);
+  const debug = useLocalifyStore((state) => state.debug);
+  const originLocale = useLocalifyStore((state) => state.originLocale);
+  const setMessages = useLocalifyStore((state) => state.setMessages);
+  const setMessage = useLocalifyStore((state) => state.setMessage);
+  const setLocale = useLocalifyStore((state) => state.setLocale);
 
   function getMessage(
     message: string | ReactNode,
     options?: GetMessageOptions
   ) {
-    const locale = context?.locale;
-
     if (!locale) return message;
 
     let existsInMessages = false;
@@ -46,7 +49,7 @@ export const useLocalify = () => {
     try {
       // get label from database (labels.json)
       // for some reasons, must use || because sometimes comes undefined with _.get
-      returnMessage = context.messages[id][locale];
+      returnMessage = messages[id][locale];
 
       // means that message was found in messages
       existsInMessages = !!returnMessage;
@@ -68,8 +71,7 @@ export const useLocalify = () => {
     }
 
     // if message does not exists, add to untracked
-    if (!existsInMessages && context.debug)
-      addUntrackedMessage(message, context.originLocale);
+    if (!existsInMessages && debug) addUntrackedMessage(message, originLocale);
 
     return returnMessage &&
       typeof returnMessage === 'string' &&
@@ -109,15 +111,23 @@ export const useLocalify = () => {
       return merged;
     }
 
-    return mergeMessages(context?.messages || {}, getUntrackedMessages());
+    return mergeMessages(messages || {}, getUntrackedMessages());
   }
 
   return {
-    ...context,
+    messages,
+    locale,
+    ready,
+    debug,
+    originLocale,
+    languages,
+    setMessages,
+    setMessage,
+    setLocale,
     getMessage,
     locl,
     getMergedMessages,
-    getAvailableLanguages: () => getAvailableLanguages(context.messages),
+    getAvailableLanguages: () => getAvailableLanguages(messages),
   };
 };
 
