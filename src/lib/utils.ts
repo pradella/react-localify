@@ -67,12 +67,15 @@ export function getUntrackedMessages() {
 export function getBrowserLocale(): LocaleId | string | undefined {
   let browserLocale: string | undefined = undefined;
 
-  if (navigator.languages && navigator.languages.length) {
-    // Use the first language from the list of preferred languages
-    browserLocale = navigator.languages[0];
-  } else {
-    // Fallback to navigator.language if navigator.languages is not available
-    browserLocale = navigator.language;
+  // Check if navigator exists (browser environment)
+  if (typeof navigator !== 'undefined') {
+    if (navigator.languages && navigator.languages.length) {
+      // Use the first language from the list of preferred languages
+      browserLocale = navigator.languages[0];
+    } else {
+      // Fallback to navigator.language if navigator.languages is not available
+      browserLocale = navigator.language;
+    }
   }
 
   return browserLocale;
@@ -80,15 +83,22 @@ export function getBrowserLocale(): LocaleId | string | undefined {
 
 const localStorageLocaleKey = 'locale';
 export function getLocalStorageLocale() {
-  return window.localStorage.getItem(localStorageLocaleKey) || undefined;
+  if (typeof window !== 'undefined' && window.localStorage) {
+    return window.localStorage.getItem(localStorageLocaleKey) || undefined;
+  }
+  return undefined;
 }
 
 export function setLocalStorageLocale(locale: LocaleId) {
-  return window.localStorage.setItem(localStorageLocaleKey, locale);
+  if (typeof window !== 'undefined' && window.localStorage) {
+    return window.localStorage.setItem(localStorageLocaleKey, locale);
+  }
 }
 
 export function removeLocalStorageLocale() {
-  window.localStorage.removeItem(localStorageLocaleKey);
+  if (typeof window !== 'undefined' && window.localStorage) {
+    window.localStorage.removeItem(localStorageLocaleKey);
+  }
 }
 
 export function replaceAll(str: string, search: string, replacement: string) {
