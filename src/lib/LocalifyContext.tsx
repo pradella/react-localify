@@ -2,8 +2,8 @@
 import { ReactNode, useEffect, useRef } from 'react';
 
 import { defaultLocale } from './const';
-import { LocaleId, Messages } from './types';
 import { useLocalifyStore } from './localifyStore';
+import { LocaleId, Messages } from './types';
 
 // Props for LocalifyProvider
 interface LocalifyProviderProps {
@@ -28,7 +28,22 @@ export const LocalifyProvider = ({
   const ready = useLocalifyStore((state) => state.ready);
   const initializedRef = useRef(false);
 
-  // Initialize the store once on mount
+  // Check if we're in SSR/prerendering environment
+  const isSSR = typeof window === 'undefined';
+
+  // For SSR/prerendering: Initialize synchronously before first render
+  if (isSSR && !initializedRef.current) {
+    initialize({
+      messages,
+      locale,
+      debug,
+      originLocale,
+      persistLocaleChange,
+    });
+    initializedRef.current = true;
+  }
+
+  // For browser: Initialize in useEffect
   useEffect(() => {
     if (!initializedRef.current) {
       initialize({
@@ -42,5 +57,7 @@ export const LocalifyProvider = ({
     }
   }, [initialize, messages, locale, debug, originLocale, persistLocaleChange]);
 
-  return <>{ready ? children : null}</>;
+  // During SSR, render immediately without waiting for ready flag
+  // In browser, wait for ready flag
+  return <>{isSSR || ready ? children : null}</>;
 };
