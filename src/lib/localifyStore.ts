@@ -61,12 +61,18 @@ export const useLocalifyStore = create<LocalifyStore>((set, get) => ({
   },
 
   setMessages: (newMessages: Messages) => {
-    set({
-      messages: {
-        ...get().messages,
-        ...newMessages,
-      },
+    const currentMessages = get().messages;
+    const mergedMessages = { ...currentMessages };
+
+    // Deep merge each message key to preserve existing locale translations
+    Object.keys(newMessages).forEach((messageKey) => {
+      mergedMessages[messageKey] = {
+        ...(currentMessages[messageKey] || {}),
+        ...newMessages[messageKey],
+      };
     });
+
+    set({ messages: mergedMessages });
   },
 
   setMessage: (id: string, locale: LocaleId, message: string) => {

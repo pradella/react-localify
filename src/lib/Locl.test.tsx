@@ -2,7 +2,13 @@
 // https://mayashavin.com/articles/test-react-hooks-with-vitest
 
 import { it, expect, describe } from 'vitest';
-import { render, screen, renderHook } from '@testing-library/react';
+import {
+  render,
+  screen,
+  renderHook,
+  waitFor,
+  act,
+} from '@testing-library/react';
 import { ReactNode } from 'react';
 
 import { Locl } from './Locl';
@@ -251,5 +257,39 @@ describe('Locl', () => {
     expect(result.current.getAvailableLanguages().length).toBe(
       ['en-US', 'pt-BR', 'es-ES'].length
     );
+  });
+
+  it('should setMessages update messages', async () => {
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <LocalifyProvider messages={messages}>{children}</LocalifyProvider>
+    );
+
+    const { result } = renderHook(useLocalify, {
+      wrapper: wrapper,
+    });
+
+    expect(result.current.messages['Hello-world']['en-US']).toBe(
+      'Hello, world'
+    );
+
+    act(() => {
+      result.current.setMessages({
+        'Hello-world': {
+          'en-US': 'Hello, world UPDATED',
+        },
+      });
+    });
+
+    await waitFor(() => {
+      expect(result.current.messages['Hello-world']['en-US']).toBe(
+        'Hello, world UPDATED'
+      );
+
+      // check if other locale messages are still there
+      expect(result.current.messages['Hello-world']['pt-BR']).toBe('Olá mundo');
+      expect(result.current.messages['Hello-world']['es-ES']).toBe(
+        'Hola mundo'
+      );
+    });
   });
 });
