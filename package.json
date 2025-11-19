@@ -1,7 +1,7 @@
 {
   "name": "react-localify",
   "private": false,
-  "version": "2.0.4-alpha.0",
+  "version": "2.0.4",
   "type": "module",
   "description": "A React library for effortless app localization",
   "repository": {
