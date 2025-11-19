@@ -284,6 +284,12 @@ describe('Locl', () => {
       expect(result.current.messages['Hello-world']['en-US']).toBe(
         'Hello, world UPDATED'
       );
+
+      // check if other locale messages are still there
+      expect(result.current.messages['Hello-world']['pt-BR']).toBe('Olá mundo');
+      expect(result.current.messages['Hello-world']['es-ES']).toBe(
+        'Hola mundo'
+      );
     });
   });
 });
