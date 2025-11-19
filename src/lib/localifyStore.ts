@@ -67,7 +67,7 @@ export const useLocalifyStore = create<LocalifyStore>((set, get) => ({
     // Deep merge each message key to preserve existing locale translations
     Object.keys(newMessages).forEach((messageKey) => {
       mergedMessages[messageKey] = {
-        ...currentMessages[messageKey],
+        ...(currentMessages[messageKey] || {}),
         ...newMessages[messageKey],
       };
     });
