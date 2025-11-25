@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2025-11-25
+
+### Fixed
+
+- Fixed race condition where `LocalifyProvider` would re-initialize on remount, overwriting explicitly set locales with auto-detected browser locale
+- Added guard to `initialize()` method to prevent re-initialization if store is already ready or if locale was explicitly set via `setLocale()`
+- Locales now persist correctly across component remounts
+
 ## [2.0.4] - 2025-11-19
 
 ### Fixed

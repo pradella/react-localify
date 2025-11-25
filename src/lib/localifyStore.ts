@@ -100,6 +100,11 @@ export const useLocalifyStore = create<LocalifyStore>((set, get) => ({
   },
 
   initialize: (config) => {
+    // Guard: Don't re-initialize if already ready OR if locale was explicitly set
+    if (get().ready || get().setLocaleTouched) {
+      return;
+    }
+
     const {
       messages,
       locale = 'auto',
