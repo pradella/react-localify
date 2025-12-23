@@ -1,7 +1,7 @@
 // Reference:
 // https://mayashavin.com/articles/test-react-hooks-with-vitest
 
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe, beforeEach } from 'vitest';
 import {
   render,
   screen,
@@ -15,6 +15,7 @@ import { Locl } from './Locl';
 import { LocalifyProvider } from './LocalifyContext';
 import { useLocalify } from './useLocalify';
 import { defaultLocale } from './const';
+import { useLocalifyStore } from './localifyStore';
 
 const messages = {
   'Hello-world': {
@@ -67,6 +68,11 @@ const messages = {
 };
 
 describe('Locl', () => {
+  beforeEach(() => {
+    // Reset the store before each test to avoid state pollution
+    useLocalifyStore.getState().reset();
+  });
+
   it('render text', async () => {
     const text = 'Hello, world';
     render(
